@@ -1,0 +1,115 @@
+digraph {
+  rankdir=LR;
+
+  subgraph splits {
+    helix -> corne;
+    jian -> jorian; 
+    jian -> jorne; 
+    jian -> jiran;
+
+    corne -> {
+      jorne;
+      "corneish zen";
+      cornelius;
+      fifi;
+      kyria;
+      lily58;
+      torn;
+    };
+
+    lily58 -> sofle;
+
+    kyria -> {
+        ahokore;
+        arch36;
+        ferris;
+        fifi;
+    };
+
+    "kinesis advantage" -> ergodox;
+
+    ergodox -> {
+      atreus;
+      ergodash;
+      gergo;
+      iris;
+      minidox;
+      moonlander;
+      redox;
+    };
+
+    ergodash -> {
+      "ergodash-lp";
+      choc_ergo;
+    };
+
+    gergo -> gergoplex;
+    gergoplex -> {
+      ferris;
+      choc_ergo;
+    };
+
+    ferris -> {
+      ahokore;
+      sepia;
+      draculad;
+      rollow;
+      sweep;
+      zaphod;
+    };
+
+    minidox -> {
+      absolem;
+      microdox;
+    };
+
+    model01 -> {
+      absolem;
+    };
+
+    sofle -> kimiko;
+
+    "5plit" -> "fissure1";
+    "For Science" -> "fissure1";
+    fissure1 -> "fissure2+";
+    jklp -> "fissure2+";
+  }
+
+  subgraph unibody {
+    atreus -> {
+      absolem;
+    };
+    reviung39 -> {
+      ahokore;
+      reviung41;
+    };
+  };
+
+  subgraph ortholinear {
+    plaid -> {
+      discipline;
+      torn;
+    };
+    planck -> {
+      preonic;
+      pancake;
+    };
+  }
+
+  subgraph {
+    dactyl -> {
+      "dactyl manuform";
+      skeletyl;
+    }
+  }
+
+  subgraph alicefamily {
+    alice -> {
+      arisu;
+      ava;
+      cornelius;
+      maja;
+      prime_e;
+    }
+  }
+}

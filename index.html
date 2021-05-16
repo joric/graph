@@ -196,12 +196,25 @@ function resize() {
 window.onresize = resize
 resize()
 
-fetch('https://raw.githubusercontent.com/petejohanson/mk-family-tree/main/tree.gv')
-  .then(response => response.text())
-  .then((text) => {
-   var g = graphlibDot.read(text);
-   parse(g)
-})
+urls = [
+  'https://raw.githubusercontent.com/petejohanson/mk-family-tree/main/tree.gv',
+  'tree.gv',
+]
+
+load = function(e) {
+  if (e!=undefined && e.type=='load' && e.target.response.length>0) {
+    return parse(graphlibDot.read(e.target.response));
+  } else if (urls.length>0) {
+    url = urls.shift()
+    console.log('loading', url)
+    xhr = new XMLHttpRequest()
+    xhr.onload = xhr.onerror = load
+    xhr.open('GET', url)
+    xhr.send();
+  }
+}
+
+load()
 
 </script>
 
