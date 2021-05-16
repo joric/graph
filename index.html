@@ -20,7 +20,7 @@ body { padding: 0em; margin: 0em; overflow: hidden; }
 const rad = 35
 
 radiusw = function(w) {
-  return (rad * (1 + Math.min(w,15)/15.0))
+  return (rad * (1 + Math.min(w,10)/10.0))
 }
 
 function gradient(value) {
@@ -43,7 +43,7 @@ chart = function() {
   const nodes = data.nodes.map(d => Object.create(d));
 
     simulation = d3.forceSimulation(nodes)
-        .force("link", d3.forceLink(links).id(d => d.id).distance(100).strength(2))
+        .force("link", d3.forceLink(links).id(d => d.id).distance(100).strength(1))
         .force("charge", d3.forceManyBody().strength(-500))
         .force("x", d3.forceX())
         .force("y", d3.forceY())
@@ -85,27 +85,32 @@ chart = function() {
         .join("g")
         .call(drag(simulation));
 
-    node.append("circle")
+    node.append("a").attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=!ducky+" + encodeURI(d.id+" keyboard")})
+        .append("circle")
+        .attr("r", d=>radiusw(d.w))
         .attr("stroke", "white")
         .attr("stroke-width", 1.5)
-        .attr("r", d=>radiusw(d.w))
         .attr('fill', d=>colorw(d.w));
 
-    node.append("a")
-        .attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=!ducky+" + encodeURI(d.id+" keyboard")})
-        .append("text")
+    node.append("text")
         .attr("text-anchor", "middle")
         .attr("x", 0)
-        .attr("y", "0.31em")
+        .attr("y", "0.25em")
         .text(d => d.id)
+        .style("font-size", function(d) {
+          setTimeout(() => { var r = radiusw(d.w); this.style.fontSize=Math.min(r, 2*r/this.getComputedTextLength()*12)+'px'});
+          return '14px'})
         .attr("fill", "black")
-        .attr('pointer-events','all')
+        .attr('pointer-events','none')
+
+    node.append("title").text(d=>d.id);
 
     node.on('dblclick', (e, d) => console.log(nodes[d.index]))
 
     simulation.on("tick", () => {
         node.attr("cx", function(d) {return d.x = Math.max(radiusw(d.w), Math.min(width-radiusw(d.w), d.x));})
         .attr("cy", function(d) {return d.y = Math.max(radiusw(d.w), Math.min(height-radiusw(d.w), d.y)); });
+
 
         link.attr("d", d =>`M${d.source.x},${d.source.y}A0,0 0 0,1 ${d.target.x},${d.target.y}`);
 
@@ -118,7 +123,8 @@ chart = function() {
           return "M" + d.source.x + "," + d.source.y + "A0,0 0 0,1 " + m.x + "," + m.y;
         });
 
-        node.attr("transform", d => `translate(${d.x},${d.y})`);
+        node.attr("transform", d => `translate(${d.x},${d.y})`)
+
     });
 
   return svg.node();
