@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
-<script src="https://cpettitt.github.io/project/graphlib-dot/latest/graphlib-dot.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/graphlib-dot@0.6.2/dist/graphlib-dot.min.js"></script>
 
 <!--
 see https://observablehq.com/@brunolaranjeira/d3-v6-force-directed-graph-with-directional-straight-arrow
@@ -44,7 +46,7 @@ chart = function() {
 
     simulation = d3.forceSimulation(nodes)
         .force("link", d3.forceLink(links).id(d => d.id).distance(100).strength(1))
-        .force("charge", d3.forceManyBody().strength(-500))
+        .force("charge", d3.forceManyBody().strength(-1000))
         .force("x", d3.forceX())
         .force("y", d3.forceY())
         .force("center", d3.forceCenter(width/2, height/2))
@@ -96,9 +98,9 @@ chart = function() {
         .attr("text-anchor", "middle")
         .attr("x", 0)
         .attr("y", "0.25em")
-        .text(d => d.id)
+        .text(d => d.label ? d.label : d.id)
         .style("font-size", function(d) {
-          setTimeout(() => { var r = radiusw(d.w); this.style.fontSize=Math.min(r, 2*r/this.getComputedTextLength()*12)+'px'});
+          //setTimeout(() => { var r = radiusw(d.w); this.style.fontSize=Math.min(r, 2*r/this.getComputedTextLength()*12)+'px'});
           return '14px'})
         .attr("fill", "black")
         .attr('pointer-events','none')
@@ -164,6 +166,7 @@ function parse(g) {
   links = []
 
   w = {}
+  labels = {}
 
   for (let key of Object.keys(g._edgeObjs)) {
       var o = g._edgeObjs[key];
@@ -175,7 +178,16 @@ function parse(g) {
     w[l.source] += 1
   }
 
-  data = ({nodes: Array.from(new Set(links.flatMap(l => [l.source, l.target])), id => ({id, 'w':w[id]})), links})
+  for (let key of Object.keys(g._nodes)) {
+      label = g._nodes[key]
+      if (typeof label === 'string') {
+        label = label.replaceAll('\\n',' ');
+        labels[key] = label
+      }
+  }
+
+  ids = new Set(links.flatMap(l => [l.source, l.target]));
+  data = ({nodes: Array.from(ids, id => ({id, 'w':w[id], 'label':labels[id]})), links})
 
   d3.select("#graph").append(chart)
 }
@@ -202,6 +214,12 @@ urls = [
 ]
 
 load = function(e) {
+
+  let hash = window.location.hash.substr(1);
+  if (hash != "") {
+    urls.unshift(hash);
+  }
+
   if (e!=undefined && e.type=='load' && e.target.response.length>0) {
     return parse(graphlibDot.read(e.target.response));
   } else if (urls.length>0) {
