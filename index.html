@@ -87,7 +87,7 @@ chart = function() {
         .join("g")
         .call(drag(simulation));
 
-    node.append("a").attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=!ducky+" + encodeURI(d.id+" keyboard")})
+    node.append("a").attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=" + encodeURI(d.id+" keyboard")})
         .append("circle")
         .attr("r", d=>radiusw(d.w))
         .attr("stroke", "white")
