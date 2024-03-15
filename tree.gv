@@ -15,6 +15,7 @@ digraph {
       lily58;
       microdox;
       torn;
+      jorne;
     };
 
     lily58 -> {
