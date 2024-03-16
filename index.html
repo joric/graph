@@ -141,8 +141,8 @@ chart = function() {
 
                 //console.log(x,y,w,h,sw,sh);
 
-                x = Math.min(x,sw-w);
-                y = Math.min(y,sh-h);
+                x = Math.min(x+10,sw-w);
+                y = Math.min(y+10,sh-h);
 
                 t.style.left = x+'px';
                 t.style.top = y+'px';
