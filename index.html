@@ -137,12 +137,16 @@ chart = function() {
                 t = im.data;
                 t.style.display = "block";
 
-                [x,y,w,h,sw,sh]=[me.x, me.y, t.offsetWidth, t.offsetHeight, document.body.offsetWidth, document.body.offsetHeight];
+                [x,y,w,h,sw,sh]=[d.x,d.y,t.offsetWidth, t.offsetHeight, document.body.offsetWidth, document.body.offsetHeight];
 
                 //console.log(x,y,w,h,sw,sh);
 
-                x = Math.min(x+10,sw-w);
-                y = Math.min(y+10,sh-h);
+                r = radiusw(d.w)
+                x += r*0.7;
+                y += r*0.7;
+
+                x = Math.min(x,sw-w);
+                y = Math.min(y,sh-h);
 
                 t.style.left = x+'px';
                 t.style.top = y+'px';
