@@ -110,7 +110,7 @@ chart = function() {
     node.on('dblclick', (e, d) => console.log(nodes[d.index]))
 
     var titleShowTimeout;
-    node.on('mouseover', function(e,d) {
+    node.on('mouseover', function(me,d) {
       titleShowTimeout = setTimeout(function () {
 
           //url = "https://loremflickr.com/1280/720/" + encodeURI(d.id+",keyboard") + "/all";
@@ -135,8 +135,11 @@ chart = function() {
 
               im.src = url;
 
-              x.style.left = Math.round(d.x)+'px';
-              x.style.top = Math.round(d.y)+'px';
+              //x.style.left = Math.round(d.x)+'px';
+              //x.style.top = Math.round(d.y)+'px';
+
+              x.style.left = me.x+'px';
+              x.style.top = me.y+'px';
 
             }
           }
