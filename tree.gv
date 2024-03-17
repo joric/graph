@@ -3,9 +3,17 @@ digraph {
 
   subgraph splits {
     helix -> corne;
-    jian -> jorian;
-    jian -> jorne;
-    jian -> jiran;
+
+    jian -> {
+      jorian;
+      jorne;
+      jiran;
+    }
+
+    jorne -> {
+      nijuni;
+      khonsu;
+    }
 
     corne -> {
       "corneish zen";
@@ -16,6 +24,9 @@ digraph {
       microdox;
       torn;
       jorne;
+      "dao chock BLE";
+      "ergonaut one";
+      mriya;
     };
 
     lily58 -> {
