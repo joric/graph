@@ -16,6 +16,7 @@ digraph {
     jorne -> {
       nijuni;
       khonsu;
+      "dao chock BLE";
     }
 
     corne -> {
@@ -27,7 +28,6 @@ digraph {
       microdox;
       torn;
       jorne;
-      "dao chock BLE";
       "ergonaut one";
       mriya;
       zireael;
