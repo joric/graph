@@ -180,19 +180,17 @@ chart = function() {
         .attr("fill", "black")
         .attr('pointer-events','none')
 
-    //node.append("title").text(d=>d.id);
+    node.append("title").text(d=>d.id);
 
     node.on('click', function(event, d) {
       if (tooltip_id != d.id) {
-        //url = "https://duckduckgo.com/?q=" + encodeURI(d.id+" keyboard")
-        //Tooltip.select('.tooltip-popup-content').html('<a href="'+url+'" target=_blank>'+d.id+'</a>')
-        //.html('<a href="'+url+'" target=_blank>'+d.id+'</a><a href="#" onclick=\'this.parentElement.style.visibility=\"hidden\";\'>&cross;</a>')
         tooltip_id = d.id;
         Tooltip.style("visibility", "hidden")
         load_image(d.id, Tooltip.select('.tooltip-popup-content'));
       }
     })
 
+    /*
     var titleHideTimeout
     var titleShowTimeout
 
@@ -219,6 +217,7 @@ chart = function() {
     node.on('mouseout', hide_tooltip);
     Tooltip.on('mouseover', show_tooltip);
     Tooltip.on('mouseout', hide_tooltip);
+    */
 
     simulation.on("tick", () => {
       node
