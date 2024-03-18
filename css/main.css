@@ -1,5 +1,7 @@
 body {
   padding: 0em; margin: 0em; overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
 .tooltip-popup {
