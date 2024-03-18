@@ -193,19 +193,32 @@ chart = function() {
       }
     })
 
-    node.on('mouseover', function(me,d) {
+    var titleHideTimeout
+    var titleShowTimeout
+
+    function show_tooltip(me, d) {
+      clearTimeout(titleHideTimeout);
       titleShowTimeout = setTimeout(function () {
-        if (tooltip_id != d.id) {
+        if (d && tooltip_id != d.id) {
           tooltip_id = d.id;
           Tooltip.style("visibility", "hidden")
           load_image(d.id, Tooltip.select('.tooltip-popup-content'));
         }
       }, 500);
-    });
+    }
 
-    node.on('mouseout', function(e,d) {
+    function hide_tooltip(me, d) {
       clearTimeout(titleShowTimeout);
-    });
+      titleHideTimeout = setTimeout(function () {
+        tooltip_id = -1;
+        Tooltip.style("visibility", "hidden")
+      }, 500);
+    }
+
+    node.on('mouseover', show_tooltip);
+    node.on('mouseout', hide_tooltip);
+    Tooltip.on('mouseover', show_tooltip);
+    Tooltip.on('mouseout', hide_tooltip);
 
     simulation.on("tick", () => {
       node
