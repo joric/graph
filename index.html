@@ -37,24 +37,26 @@ var simulation
 function get_image_url(id, callback) {
   //return callback('https://placebear.com/200/300')
 
-  image_url = images[id];
-  if (image_url) {
-    return callback(image_url);
+  url = images[id];
+  if (url) {
+    return callback(url);
   }
 
   xhr = new XMLHttpRequest()
   xhr.onload = xhr.onerror = function(e) {
     if (e!=undefined && e.type=='load' && e.target.response.length>0) {
-
       var wrapper= document.createElement('div');
       wrapper.innerHTML= e.target.response;
       r = wrapper.querySelector("#sres li a img");
-      image_url = r.getAttribute('data-src');
-      if (!image_url) {
-        image_url = r.getAttribute('src'); // mobile
+
+      url = r.getAttribute('data-src');
+      if (!url) {
+        url = r.getAttribute('src'); // mobile
       }
-      images[id] = image_url;
-      callback(image_url);
+      url = url.substr(0, url.indexOf('&'));
+
+      images[id] = url;
+      callback(url);
     }
   }
 
