@@ -16,7 +16,7 @@ digraph {
     }
 
     corne -> {
-      "corneish zen";
+      "corne-ish zen";
       cornelius;
       fifi;
       kyria;
