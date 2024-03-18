@@ -4,6 +4,7 @@ digraph {
   subgraph splits {
     helix -> corne;
     wenki44 -> enki42;
+    "jiran BLE lite" -> jiran;
 
     jian -> {
       jorian;
@@ -117,6 +118,7 @@ digraph {
       ahokore;
       reviung41;
     };
+    tk44->jian;
   };
 
   subgraph ortholinear {
