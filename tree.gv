@@ -12,7 +12,6 @@ digraph {
 
     jorne -> {
       nijuni;
-      khonsu;
     }
 
     corne -> {
