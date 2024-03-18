@@ -3,11 +3,13 @@ digraph {
 
   subgraph splits {
     helix -> corne;
+    wenki44 -> enki42;
 
     jian -> {
       jorian;
       jorne;
       jiran;
+      enki42;
     }
 
     jorne -> {
@@ -28,6 +30,7 @@ digraph {
       "ergonaut one";
       mriya;
       zireael;
+      enki42;
     };
 
     lily58 -> {
