@@ -78,6 +78,7 @@ digraph {
       rollow;
       sweep;
       zaphod;
+      "a.dux";
     };
 
     manuform -> "dactyl manuform";
