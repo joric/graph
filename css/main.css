@@ -1,5 +1,8 @@
 body {
   padding: 0em; margin: 0em; overflow: hidden;
+}
+
+body, #graph {
   width: 100vw;
   height: 100vh;
 }
