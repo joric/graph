@@ -179,7 +179,7 @@ chart = function() {
         .attr("fill", "black")
         .attr('pointer-events','none')
 
-    node.append("title").text(d=>d.id);
+    //node.append("title").text(d=>d.id);
 
     node.on('click', function(event, d) {
       if (tooltip_id != d.id) {
@@ -192,7 +192,6 @@ chart = function() {
       }
     })
 
-    /*
     node.on('mouseover', function(me,d) {
       titleShowTimeout = setTimeout(function () {
         if (tooltip_id != d.id) {
@@ -206,7 +205,6 @@ chart = function() {
     node.on('mouseout', function(e,d) {
       clearTimeout(titleShowTimeout);
     });
-    */
 
     simulation.on("tick", () => {
       node
