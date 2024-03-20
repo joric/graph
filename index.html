@@ -237,7 +237,7 @@ chart = function() {
     node
         .append("a")
         //.attr("xlink:href", function(d){ return "https://google.com/search?q=" + encodeURI(d.id+" keyboard github")})
-        .attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=\\" + encodeURI(d.id+" keyboard github")}) // ddg feeling lucky
+        .attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=\\\"" + encodeURI(d.id+"\" \"keyboard\"")}) // ddg feeling lucky
         .attr('target','_blank')
 
         .append("text")
