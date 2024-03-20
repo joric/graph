@@ -217,21 +217,29 @@ chart = function() {
         .join("g")
         .call(drag(simulation))
 
-    node.append("a")
+    node
+      /*
+        .append("a")
         .attr("xlink:href", function(d){ return "https://google.com/search?q=" + encodeURI(d.id+" keyboard")})
         .attr('target','_blank')
+        */
         .append("circle")
         .attr("r", d=>radiusw(d.w))
         .attr("stroke-width", 1.5)
         .attr('fill', d=>colorw(d.w))
-        .style('cursor','pointer')
+        //.style('cursor','pointer')
 
         //.attr("cx", '0')
         //.attr("cy", '-25')
         //.attr("stroke", "white")
         //.attr('fill','url(#image)')
 
-    node.append("text")
+    node
+        .append("a")
+        .attr("xlink:href", function(d){ return "https://google.com/search?q=" + encodeURI(d.id+" keyboard")})
+        .attr('target','_blank')
+
+        .append("text")
         .attr("text-anchor", "middle")
         .attr("x", 0)
         .attr("y", "0.25em")
@@ -243,7 +251,9 @@ chart = function() {
         .attr("fill", "black")
         //.attr("fill", "white")
         //.attr("stroke","transparent")
-        .attr('pointer-events','none')
+        //.attr('pointer-events','none')
+        .style('cursor','pointer')
+
 
     node.append("title").text(d=>d.id);
 
