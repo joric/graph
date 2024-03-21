@@ -80,14 +80,21 @@ function set_image(id, url, div) {
     simulation.alphaTarget(0).restart() // update tooltip position
 
     rc = Tooltip.node().getBoundingClientRect();
-    [x,y,w,h,sw,sh]=[mouseX+20,mouseY+20,rc.width, rc.height, document.body.offsetWidth, document.body.offsetHeight];
+    [x,y,w,h,sw,sh]=[mouseX,mouseY,rc.width, rc.height, document.body.offsetWidth, document.body.offsetHeight];
 
-    x = Math.min(x,sw-w-10);
-    y = Math.min(y,sh-h-10);
+    d = 10;
+
+    if (x + d + w >= sw) {
+      x = x - w - d - d;
+    }
+
+    if (y + d + h >= sh ) {
+      y = sh - h - d - d;
+    }
 
     Tooltip
-      .style("left", x + "px")
-      .style("top", y +  "px")
+      .style("left", (x+d) + "px")
+      .style("top", (y+d) +  "px")
       .style("visibility", "visible")
   }
   im.src = url; // let onload fire
@@ -138,7 +145,6 @@ chart = function() {
   Tooltip = d3.select('#graph')
     .append('div').attr('class','tooltip')
     .style("visibility", "hidden")
-    .attr('pointer-events','none')
 
   Tooltip
     .append('div').attr('class','tooltip-content')
@@ -270,8 +276,6 @@ chart = function() {
   node.on('mouseout', function() {
     hide_tooltip();
   });
-
-
 
   simulation.on("tick", () => {
     //node
