@@ -242,18 +242,19 @@ chart = function() {
           rc = Tooltip.node().getBoundingClientRect();
           [x,y,w,h,sw,sh]=[mouseX,mouseY,rc.width, rc.height, document.body.offsetWidth, document.body.offsetHeight];
 
-          d = 10;
+          dx = 16;
+          dy = 8;
 
-          if (x + d + w > sw) {
-            x -= w + d;
+          if (x + dx + w > sw) {
+            x -= w + dx;
           } else {
-            x += d;
+            x += dx;
           }
 
-          if (y + d + h > sh ) {
-            y -= h + d;
+          if (y + dy + h > sh ) {
+            y -= h + dy;
           } else {
-            y += d;
+            y += dy;
           }
 
           Tooltip
