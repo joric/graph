@@ -244,17 +244,21 @@ chart = function() {
 
           d = 10;
 
-          if (x + d + w >= sw) {
-            x = x - w - d - d;
+          if (x + d + w > sw) {
+            x -= w + d;
+          } else {
+            x += d;
           }
 
-          if (y + d + h >= sh ) {
-            y = sh - h - d - d;
+          if (y + d + h > sh ) {
+            y -= h + d;
+          } else {
+            y += d;
           }
 
           Tooltip
-            .style("left", (x+d) + "px")
-            .style("top", (y+d) +  "px")
+            .style("left", x + "px")
+            .style("top", y +  "px")
             .style("visibility", "visible")
         });
       }
