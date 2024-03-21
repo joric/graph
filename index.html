@@ -43,67 +43,37 @@ var simulation
 
 function get_image_url(id, callback) {
   //return callback('https://placebear.com/200/300')
-
   url = images[id];
   if (url) {
     return callback(url);
   }
-
   xhr = new XMLHttpRequest()
   xhr.onload = xhr.onerror = function(e) {
     if (e!=undefined && e.type=='load' && e.target.response.length>0) {
       var wrapper= document.createElement('div');
       wrapper.innerHTML= e.target.response;
       r = wrapper.querySelector("#sres li a img");
-
       url = r.getAttribute('data-src');
       if (!url) {
         url = r.getAttribute('src'); // mobile
       }
       url = url.substr(0, url.indexOf('&'));
-
       images[id] = url;
       callback(url);
     }
   }
-
   text = '"'+id + '" keyboard github';
   page_url = "https://images.search.yahoo.com/search/images?p=" + encodeURI(text);
   xhr.open('GET', page_url)
   xhr.send();
 }
 
-function set_image(id, url, div) {
-  req = 'http://www.google.com/search?q=%s';
-  req = req.replace('%s',encodeURI(id + ' keyboard'));
-  div.html('<a href="'+req+'" target=_blank><img src="" style="max-width:512px;max-height:512px;display:block"></a>');
-  var im = div.node().firstChild.firstChild
-  im.onload = function(){ 
-    simulation.alphaTarget(0).restart() // update tooltip position
-
-    rc = Tooltip.node().getBoundingClientRect();
-    [x,y,w,h,sw,sh]=[mouseX,mouseY,rc.width, rc.height, document.body.offsetWidth, document.body.offsetHeight];
-
-    d = 10;
-
-    if (x + d + w >= sw) {
-      x = x - w - d - d;
-    }
-
-    if (y + d + h >= sh ) {
-      y = sh - h - d - d;
-    }
-
-    Tooltip
-      .style("left", (x+d) + "px")
-      .style("top", (y+d) +  "px")
-      .style("visibility", "visible")
-  }
-  im.src = url; // let onload fire
-}
-
-function load_image(id, div) {
-  get_image_url(id, function(url){ set_image(id,url,div); } )
+function loadImage(id, callback) {
+  get_image_url(id, function(url){
+    var im = document.createElement('img');
+    im.onload = function(){callback(im)}
+    im.src = url;
+  });
 }
 
 var tooltip_id = -1
@@ -260,12 +230,33 @@ chart = function() {
   //node.on('dblclick', (e, d) => zoomFit(svg, 500)  )
 
   node.on('mouseover', function(event, d) {
-    //console.log('firing event')
     titleShowTimeout = setTimeout(function() {
       if (d && tooltip_id != d.id) {
         tooltip_id = d.id;
         Tooltip.style("visibility", "hidden")
-        load_image(d.id, Tooltip.select('.tooltip-content'));
+
+        loadImage(d.id, function(im) {
+          div = Tooltip.select('.tooltip-content')
+          div.html('')
+          div.node().appendChild(im)
+          rc = Tooltip.node().getBoundingClientRect();
+          [x,y,w,h,sw,sh]=[mouseX,mouseY,rc.width, rc.height, document.body.offsetWidth, document.body.offsetHeight];
+
+          d = 10;
+
+          if (x + d + w >= sw) {
+            x = x - w - d - d;
+          }
+
+          if (y + d + h >= sh ) {
+            y = sh - h - d - d;
+          }
+
+          Tooltip
+            .style("left", (x+d) + "px")
+            .style("top", (y+d) +  "px")
+            .style("visibility", "visible")
+        });
       }
     }, 500);
   });
