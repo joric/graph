@@ -15,6 +15,8 @@ var images={
   "khonsu" : "https://github.com/snark013/khonsu/blob/main/imgs/keyboard.png?raw=true",
   "sepia": "https://github.com/tapioki/cephalopoda/raw/main/Images/sepia_officinalis.png",
   "enki42": "https://kbd.news/pic/2021/49/1045.jpg",
+  "alice": "https://camo.githubusercontent.com/77e6e3b0497a41428f09e9093ea0a2a91c44b3830ea0635b1393c9d3fd487c78/68747470733a2f2f6769746875622d70726f64756374696f6e2d757365722d61737365742d3632313064662e73332e616d617a6f6e6177732e636f6d2f3835323534372f3237373937333831312d33366434313634662d356662342d343665322d396635302d3561373666393835396538382e6a7067",
+  "wenki44": "https://kbd.news/pic/2022/107/1808.jpg",
 };
 
 const rad = 50
@@ -65,7 +67,7 @@ function get_image_url(id, callback) {
     }
   }
 
-  text = '"'+id + '" keyboard';
+  text = '"'+id + '" keyboard github';
   page_url = "https://images.search.yahoo.com/search/images?p=" + encodeURI(text);
   xhr.open('GET', page_url)
   xhr.send();
