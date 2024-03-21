@@ -20,6 +20,7 @@ var images={
 const rad = 50
 const distance = 100
 const strength = 0.5
+const marker = 8
 
 radiusw = function(w) {
   return (rad * (1 + Math.min(w,10)/10.0))
@@ -173,15 +174,15 @@ chart = function() {
       .data(links)
       .join("marker")
       .attr("id", d => `arrow-${d.source.id}`)
-      .attr("viewBox", "0 -5 10 10")
+      .attr("viewBox", `0 -${marker/2} ${marker} ${marker}`)
       .attr("refX", 0)
       .attr("refY", 0)
-      .attr("markerWidth", 6)
-      .attr("markerHeight", 6)
+      .attr("markerWidth", marker)
+      .attr("markerHeight", marker)
       .attr("orient", "auto")
       .append("path")
       .attr("fill", d=>colorw(d.source.w))
-      .attr("d", 'M0,-5L10,0L0,5')
+      .attr("d", `M0,-${marker/2}L${marker},0L0,${marker/2}`)
 
     im = defs
       .append('pattern')
@@ -308,9 +309,9 @@ chart = function() {
       // recalculate links and back off the arrow head distance
       link.attr("d", function(d) {
         var pl = this.getTotalLength();
-          var r = radiusw(d.target.w)+9;
-          var m = this.getPointAtLength(pl - r);
-          var dx = m.x - d.source.x, dy = m.y - d.source.y;
+        var r = radiusw(d.target.w);
+        var m = this.getPointAtLength(pl - r - marker*1.5);
+        var dx = m.x - d.source.x, dy = m.y - d.source.y;
         return "M" + d.source.x + "," + d.source.y + "A0,0 0 0,1 " + m.x + "," + m.y;
       });
 
