@@ -127,6 +127,13 @@ function zoomFit(root, transitionDuration) {
     .call(zoom.transform, transform);
 }
 
+var titleShowTimeout
+function hide_tooltip() {
+  clearTimeout(titleShowTimeout);
+  tooltip_id = -1;
+  Tooltip.style("visibility", "hidden")
+}
+
 chart = function() {
   Tooltip = d3.select('#graph')
     .append('div').attr('class','tooltip')
@@ -243,13 +250,11 @@ chart = function() {
   //node.append("title").text(d=>d.id);
   //node.on('dblclick', (e, d) => zoomFit(svg, 500)  )
 
-  var titleShowTimeout
   node.on('mouseover', function(event, d) {
     //console.log('firing event')
     titleShowTimeout = setTimeout(function() {
       if (d && tooltip_id != d.id) {
         tooltip_id = d.id;
-        console.log('getting image')
         Tooltip.style("visibility", "hidden")
         load_image(d.id, Tooltip.select('.tooltip-content'));
       }
@@ -262,9 +267,7 @@ chart = function() {
   });
 
   node.on('mouseout', function() {
-    clearTimeout(titleShowTimeout);
-    tooltip_id = -1;
-    Tooltip.style("visibility", "hidden")
+    hide_tooltip();
   });
 
 
@@ -334,6 +337,7 @@ drag = function(simulation) {
   function dragged(event) {
     event.subject.fx = event.x;
     event.subject.fy = event.y;
+    hide_tooltip();
   }
   
   function dragended(event) {
