@@ -62,7 +62,7 @@ function get_image_url(id, callback) {
       callback(url);
     }
   }
-  text = '"'+id + '" keyboard github';
+  text = '"'+id + '" keyboard';
   page_url = "https://images.search.yahoo.com/search/images?p=" + encodeURI(text);
   xhr.open('GET', page_url)
   xhr.send();
