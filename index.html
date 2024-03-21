@@ -234,29 +234,15 @@ chart = function() {
       if (d && tooltip_id != d.id) {
         tooltip_id = d.id;
         Tooltip.style("visibility", "hidden")
-
         loadImage(d.id, function(im) {
           div = Tooltip.select('.tooltip-content')
           div.html('')
           div.node().appendChild(im)
           rc = Tooltip.node().getBoundingClientRect();
           [x,y,w,h,sw,sh]=[mouseX,mouseY,rc.width, rc.height, document.body.offsetWidth, document.body.offsetHeight];
-
-          if (x + w > sw) {
-            x -= w + 8;
-          } else {
-            x += 16;
-          }
-
-          if (y + h > sh ) {
-            y -= h + 8;
-          } else {
-            y += 16;
-          }
-
           Tooltip
-            .style("left", x + "px")
-            .style("top", y +  "px")
+            .style("left", (x + w > sw ? x - w - 8 : x + 16) + "px")
+            .style("top", (y + h > sh ? y - h - 8 : y + 16) +  "px")
             .style("visibility", "visible")
         });
       }
