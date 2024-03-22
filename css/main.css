@@ -15,6 +15,6 @@ body, #graph {
 
 .tooltip img {
   display: block;
-  max-width: 800px;
-  max-height: 800px;
+  max-width: 512px;
+  max-height: 512px;
 }

@@ -10,6 +10,8 @@
 <script>
 
 var images={
+  //"corne":"https://keebd.com/cdn/shop/products/Corne-Cherry-v3-RGB-Keyboard-Kit-KEEBD-1664353997.jpg?v=1664353999",
+  //"corne":"https://i.etsystatic.com/28160085/r/il/f7a8f4/4635920028/il_fullxfull.4635920028_ijjg.jpg",
   "jorne": "https://camo.githubusercontent.com/f9e3a489780ac96eb8d1832f0fd71b1b3d00260a7e4dd9d08b02d3bf03479023/68747470733a2f2f692e696d6775722e636f6d2f614e47614a704d2e6a7067",
   "mriya": "https://kbd.news/pic/2023/121/1997.jpg",
   "khonsu" : "https://github.com/snark013/khonsu/blob/main/imgs/keyboard.png?raw=true",
@@ -17,16 +19,19 @@ var images={
   "enki42": "https://kbd.news/pic/2021/49/1045.jpg",
   "alice": "https://camo.githubusercontent.com/77e6e3b0497a41428f09e9093ea0a2a91c44b3830ea0635b1393c9d3fd487c78/68747470733a2f2f6769746875622d70726f64756374696f6e2d757365722d61737365742d3632313064662e73332e616d617a6f6e6177732e636f6d2f3835323534372f3237373937333831312d33366434313634662d356662342d343665322d396635302d3561373666393835396538382e6a7067",
   "wenki44": "https://kbd.news/pic/2022/107/1808.jpg",
+  "ergonaut one": "https://ergonautkb.com/assets/images/one_intro_header-dbc098e68b02ef3e87a0f2c8a0025519.jpg",
 };
 
 const rad = 50
 const distance = 100
 const strength = 0.5
 const marker = 8
+const background_images = false
+
 var mouseX, mouseY
 
 radiusw = function(w) {
-  return (rad * (1 + Math.min(w,10)/10.0))
+  return rad * (1 + Math.min(w,10)/10.0);
 }
 
 function gradient(value) {
@@ -39,9 +44,17 @@ colorw = function(w) {
   return gradient(Math.min(w,5)/5.0)
 };
 
+const slugify = str =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
 var simulation
 
-function get_image_url(id, callback) {
+function yahoo_image_url(id, callback) {
   //return callback('https://placebear.com/200/300')
   url = images[id];
   if (url) {
@@ -69,9 +82,9 @@ function get_image_url(id, callback) {
 }
 
 function loadImage(id, callback) {
-  get_image_url(id, function(url){
+  yahoo_image_url(id, function(url){
     var im = document.createElement('img');
-    im.onload = function(){callback(im)}
+    im.onload = function(){callback(im)};
     im.src = url;
   });
 }
@@ -158,19 +171,27 @@ chart = function() {
     .attr("fill", d=>colorw(d.source.w))
     .attr("d", `M0,-${marker/2}L${marker},0L0,${marker/2}`)
 
-  im = defs
-    .append('pattern')
-    .attr('id','image')
-    //.attr('patternUnits','userSpaceOnUse')
-    .attr('patternUnits','objectBoundingBox')
-    .attr('height','1')
-    .attr('width','1')
-    .append('image')
-    .attr('x','-40')
-    .attr('y','-40')
-    .attr('height','220')
-    .attr('width','220')
-    .attr("xlink:href", images['jorne'])
+
+    if (background_images) {
+      for (d of nodes) {
+        r = radiusw(d.w)
+        defs
+          .append('pattern')
+          .attr('id', `image-${slugify(d.id)}`)
+          //.attr('patternUnits','userSpaceOnUse')
+          .attr('patternUnits','objectBoundingBox')
+          .attr('width','1')
+          .attr('height','1')
+          .append('image')
+          .attr('preserveAspectRatio','xMidYMid slice')
+          .attr('x', 0)
+          .attr('y', 0)
+          .attr('width', r*2)
+          .attr('height', r*2)
+          //.attr("xlink:href", images['alice'])
+          .attr("xlink:href", images[d.id])
+      }
+    }
 
   g = svg.append("g")
 
@@ -192,39 +213,49 @@ chart = function() {
       .join("g")
       .call(drag(simulation))
 
-  node
+  circle = node
       .append("circle")
       .attr("r", d=>radiusw(d.w))
-      .attr("stroke-width", 1.5)
+      .attr("stroke-width", 2.5)
       .attr('fill', d=>colorw(d.w))
+      .attr("stroke", d=>colorw(d.w))
       //.style('cursor','pointer')
 
-      //.attr("cx", '0')
-      //.attr("cy", '-25')
-      //.attr("stroke", "white")
-      //.attr('fill','url(#image)')
+  if (background_images) {
+    node
+      .append("circle")
+      .attr("r", d=>radiusw(d.w))
+      .attr('fill',d=>`url(#image-${slugify(d.id)})`)
+      .attr("cx", '0')
+      .attr("cy", '0')
+  }
 
   node
-      .append("a")
-      //.attr("xlink:href", function(d){ return "https://google.com/search?q=" + encodeURI(d.id+" keyboard github") + '&btnI' })
-      //.attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=\\" + encodeURI(d.id+'+keyboard+github')})
-      .attr("xlink:href", function(d){ return "https://google.com/search?q=" + encodeURI(d.id+" keyboard") })
-      .attr('target','_blank')
+    .append("a")
+    //.attr("xlink:href", function(d){ return "https://google.com/search?q=" + encodeURI(d.id+" keyboard github") + '&btnI' })
+    //.attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=\\" + encodeURI(d.id+'+keyboard+github')})
+    .attr("xlink:href", function(d){ return "https://google.com/search?q=" + encodeURI(d.id+" keyboard") })
+    .attr('target','_blank')
 
-      .append("text")
-      .attr("text-anchor", "middle")
-      .attr("x", 0)
-      .attr("y", "0.25em")
-      .text(d => d.label ? d.label : d.id)
-      .style("font-size",
-        function(d) {setTimeout(() => { var r = radiusw(d.w); this.style.fontSize=Math.min(r, 2*r/this.getComputedTextLength()*12)+'px'});}
-        //'14px'
-      )
-      .attr("fill", "black")
-      //.attr("fill", "white")
-      //.attr("stroke","transparent")
-      //.attr('pointer-events','none')
-      .style('cursor','pointer')
+  text = node
+    .append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", 0)
+    .attr("y", "0.25em")
+    .text(d => d.label ? d.label : d.id)
+    .style("font-size",function(d) {setTimeout(() => { var r = radiusw(d.w); this.style.fontSize=Math.min(r, 2*r/this.getComputedTextLength()*12)+'px'});})
+    .attr('paint-order','stroke')
+    .attr("stroke-width", 2.5)
+    .style('cursor','pointer')
+    .attr("fill", "black")
+
+  if (background_images) {
+    text
+      .attr("fill", "white")
+      .attr("stroke","black")
+  }
+
+
 
   //node.append("title").text(d=>d.id);
   //node.on('dblclick', (e, d) => zoomFit(svg, 500)  )
@@ -383,11 +414,11 @@ function resize() {
   }
   */
 
-  // setTimeout(function() { zoomFit(svg, 500);},500);
+ setTimeout(function() { zoomFit(svg, 500);},500);
 }
 
 window.onresize = resize
-//window.onload = resize
+window.onload = resize
 
 urls = [
   'tree.gv',
