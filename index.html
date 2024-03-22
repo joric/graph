@@ -237,8 +237,6 @@ chart = function() {
     //.attr("xlink:href", function(d){ return "https://duckduckgo.com/?q=\\" + encodeURI(d.id+'+keyboard+github')})
     .attr("xlink:href", function(d){ return "https://google.com/search?q=" + encodeURI(d.id+" keyboard") })
     .attr('target','_blank')
-
-  text = node
     .append("text")
     .attr("text-anchor", "middle")
     .attr("x", 0)
@@ -249,12 +247,6 @@ chart = function() {
     .attr("stroke-width", 2.5)
     .style('cursor','pointer')
     .attr("fill", "black")
-
-  if (background_images) {
-    text
-      .attr("fill", "white")
-      .attr("stroke","black")
-  }
 
 
   //node.append("title").text(d=>d.id);
