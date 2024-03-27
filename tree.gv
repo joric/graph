@@ -3,7 +3,7 @@ digraph {
 
   subgraph splits {
     helix -> corne;
-    wenki44 -> enki42;
+    enki42->wenki44;
     jiran->"jiran BLE";
 
     jian -> {
