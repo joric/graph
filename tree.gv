@@ -5,6 +5,7 @@ digraph {
     helix -> corne;
     enki42->wenki44;
     jiran->"jiran BLE";
+    jorian->jorian840;
 
     jian -> {
       jorian;
