@@ -97,7 +97,6 @@ digraph {
 
     model01 -> {
       absolem;
-      atreus;
     };
 
     sofle -> kimiko;
