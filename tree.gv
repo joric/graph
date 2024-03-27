@@ -11,6 +11,7 @@ digraph {
       jorne;
       jiran;
       enki42;
+      tk44;
     }
 
     jorne -> {
@@ -118,7 +119,6 @@ digraph {
       ahokore;
       reviung41;
     };
-    tk44->jian;
   };
 
   subgraph ortholinear {
