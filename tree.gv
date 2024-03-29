@@ -8,6 +8,7 @@ digraph {
     jorian->jorian840;
     redox->"redox wireless";
     chimera->"chimera ortho";
+    em7->alice;
 
     jian -> {
       jorian;
