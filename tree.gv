@@ -6,6 +6,7 @@ digraph {
     enki42->wenki44;
     jiran->"jiran BLE";
     jorian->jorian840;
+    atreus->mitosis;
 
     jian -> {
       jorian;
@@ -22,7 +23,7 @@ digraph {
     }
 
     mitosis -> {
-      "redox wireless";
+      redox;
       centromere;
       zygote;
       jorian;
