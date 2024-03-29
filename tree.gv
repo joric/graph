@@ -7,7 +7,7 @@ digraph {
     jiran->"jiran BLE";
     jorian->jorian840;
     redox->"redox wireless";
-    chimera->"chimera ortho";
+    chimera->chimeraergo;
     em7->alice;
 
     jian -> {
