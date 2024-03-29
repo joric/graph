@@ -21,6 +21,13 @@ digraph {
       "dao choc BLE";
     }
 
+    mitosis -> {
+      "redox wireless";
+      centromere;
+      zygote;
+      jorian;
+    }
+
     corne -> {
       "corne-ish zen";
       cornelius;
