@@ -7,7 +7,7 @@ digraph {
     jiran->"jiran BLE";
     jorian->jorian840;
     redox->"redox wireless";
-    chimera->chimeraergo;
+    "chimera ortho"->"chimera ergo";
     em7->alice;
 
     jian -> {
@@ -29,7 +29,7 @@ digraph {
       "redox wireless";
       centromere;
       zygote;
-      chimera;
+      "chimera ortho";
       interphase;
       jorian;
     }
