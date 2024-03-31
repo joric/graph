@@ -24,15 +24,22 @@ var images={
   "apoptosis":"https://raw.githubusercontent.com/pseudoku/Apoptosis/master/Apoptosis_PCB.jpg",
 };
 
-const rad = 50
+const rad = 35
 const distance = 100
-const strength = 0.5
-const marker = 8
+const strength = 1
+const charge = -1000
+
+const markerSize = 8
 const background_images = false
 //const background_images = window.location.protocol == 'file:'
 
 var mouseX, mouseY
 
+radiusw = function(w) { return rad * Math.sqrt(Math.max(0, w || 1)) }
+gradient = function(value) {var r = value * 255;var b = (1.0 - value) * 255;return "rgb(" + r + ", 210, "+ b +")";}
+colorw = function(w) { return gradient(Math.min(w-1,5)/5.0); }
+
+/*
 radiusw = function(w) {
   return rad * (1 + Math.min(w,10)/10.0);
 }
@@ -46,6 +53,7 @@ function gradient(value) {
 colorw = function(w) {
   return gradient(Math.min(w,5)/5.0)
 };
+ */
 
 const slugify = str =>
   str
@@ -145,7 +153,7 @@ chart = function() {
 
   simulation = d3.forceSimulation(nodes)
       .force("link", d3.forceLink(links).id(d => d.id).distance(distance).strength(strength))
-      .force("charge", d3.forceManyBody().strength(-1000))
+      .force("charge", d3.forceManyBody().strength(charge))
       .force("x", d3.forceX())
       .force("y", d3.forceY())
       .force("center", d3.forceCenter(width/2, height/2))
@@ -164,15 +172,15 @@ chart = function() {
     .data(links)
     .join("marker")
     .attr("id", d => `arrow-${d.source.id}`)
-    .attr("viewBox", `0 -${marker/2} ${marker} ${marker}`)
+    .attr("viewBox", `0 -${markerSize/2} ${markerSize} ${markerSize}`)
     .attr("refX", 0)
     .attr("refY", 0)
-    .attr("markerWidth", marker)
-    .attr("markerHeight", marker)
+    .attr("markerWidth", markerSize)
+    .attr("markerHeight", markerSize)
     .attr("orient", "auto")
     .append("path")
     .attr("fill", d=>colorw(d.source.w))
-    .attr("d", `M0,-${marker/2}L${marker},0L0,${marker/2}`)
+    .attr("d", `M0,-${markerSize/2}L${markerSize},0L0,${markerSize/2}`)
 
 
     if (background_images) {
@@ -244,7 +252,7 @@ chart = function() {
     .attr("x", 0)
     .attr("y", "0.25em")
     .text(d => d.label ? d.label : d.id)
-    .style("font-size",function(d) {setTimeout(() => { var r = radiusw(d.w); this.style.fontSize=Math.min(r, 2*r/this.getComputedTextLength()*12)+'px'});})
+    .style("font-size",function(d) {setTimeout(() => { var r = radiusw(d.w); this.style.fontSize=Math.min(r, 2*r/this.getComputedTextLength()*14)+'px'});})
     .attr('paint-order','stroke')
     .attr("stroke-width", 2.5)
     .style('cursor','pointer')
@@ -297,7 +305,7 @@ chart = function() {
     link.attr("d", function(d) {
       var pl = this.getTotalLength();
       var r = radiusw(d.target.w);
-      var m = this.getPointAtLength(pl - r - marker*1.5);
+      var m = this.getPointAtLength(pl - r - markerSize*1.5);
       var dx = m.x - d.source.x, dy = m.y - d.source.y;
       return "M" + d.source.x + "," + d.source.y + "A0,0 0 0,1 " + m.x + "," + m.y;
     });
@@ -374,7 +382,7 @@ function parse(g) {
   for (let key of Object.keys(g._edgeObjs)) {
       var o = g._edgeObjs[key];
       links.push({'source':o.v, 'target':o.w, 'type': 'suit'})
-      w[o.v] = w[o.w] = 0
+      w[o.v] = w[o.w] = 1
   }
 
   for (l of links) {
@@ -393,6 +401,10 @@ function parse(g) {
   data = ({nodes: Array.from(ids, id => ({id, 'w':w[id], 'label':labels[id]})), links})
 
   d3.select("#graph").append(chart)
+
+  //document.getElementById('graph').onclick=function(e){zoomFit(svg, 500);};
+
+  setTimeout(function() { zoomFit(svg, 500);},500);
 }
 
 function resize() {
@@ -408,7 +420,6 @@ function resize() {
   }
   */
 
-  // setTimeout(function() { zoomFit(svg, 500);},500);
 }
 
 window.onresize = resize
