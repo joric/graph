@@ -11,4 +11,5 @@ Online demo: https://joric.github.io/graph
 * https://observablehq.com/@brunolaranjeira/d3-v6-force-directed-graph-with-directional-straight-arrow
 * https://github.com/vasturiano/force-graph
 * https://github.com/Aposymbiont/split-keyboards
+* https://github.com/YAL-Tools/ergo-keyboards/
 * https://www.reddit.com/r/ErgoMechKeyboards/wiki/resources
