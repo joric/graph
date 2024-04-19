@@ -404,7 +404,7 @@ function parse(g) {
 
   //document.getElementById('graph').onclick=function(e){zoomFit(svg, 500);};
 
-  //setTimeout(function() { zoomFit(svg, 500);},500);
+  setTimeout(function() { zoomFit(svg, 500);},500);
 }
 
 function resize() {
@@ -423,7 +423,7 @@ function resize() {
 }
 
 window.onresize = resize
-window.onload = resize
+//window.onload = resize
 
 urls = [
   'tree.gv',
